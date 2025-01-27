@@ -1,6 +1,4 @@
-Here’s the revised version with grammar and sentence structure improvements while preserving the original meaning and order:
 
----
 
 # Convose React Native Cofounder Trial Task:
 
