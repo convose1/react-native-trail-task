@@ -1,31 +1,116 @@
-# Convose React native cofounder Trial task:
+Here’s the revised version with grammar and sentence structure improvements while preserving the original meaning and order:
 
-## Create interests search (input & autocomplete) for the Convose interests:
+---
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/91b23058-90d3-4f0e-a929-6afb3a3820dc/2368ad22-9e45-477d-8d5a-fd4294b69194/image.png)
+# Convose React Native Cofounder Trial Task:
 
-**Key terms:**
-1. Primary Search term (the display term, E.g., see “Geology” & “German” in above image)
-2. Secondary search term (”Rocks” in image above)
+## Implement a Search Functionality:
 
-See [Convose.com](http://Convose.com) & the Convose app to see how it currently works, no need to replicate that exactly just get the basic functionality working as described below:
+Here are the details of how you should implement the search functionality, ensuring it works as expected:
 
-Here is the documentation for the api: [https://shadowed-camelotia-c37.notion.site/Interests-Autocomplete-API-184fff04b6f180a9a7add4a5524a7a9d](https://www.notion.so/184fff04b6f180a9a7add4a5524a7a9d?pvs=21)
+1. When you type something in the text input, it should call the endpoint, fetch the results, and display them as if they are coming from the backend.
+2. The search functionality should be optimized and follow best practices (clean code and performance should be prioritized).
+3. Add skeleton loading to indicate data is being loaded. Once the data is loaded, display the actual results in its place.
+4. Display skeleton loading when the user scrolls up to view more interests.
 
-As a user I want to be able to search for interests. Backend will provide list like this:
-1. Alphabetical order and then
-2. Order of popularity. 
-E.g., if I type “G” it will show many interests that have a display term (or secondary search term) beginning with the letter “G”. It should list these “G” interests in order of popularity (i.e., the amount of users who’ve added that interest).
+- You can see the implemented version at [https://convose.com](https://convose.com).
+- Review how we implemented skeleton loading, fetching more data, and displaying and filtering data immediately after the user types the next character.
 
-Interests should be listed from bottom to top for the app (not top to bottom like Convose.com). So I, as a user, can easily tap them with my thumb (without needing to reach to top of phone).
+![image.png](/images/convose-add-interest-button.png)
 
-As a user I dont want the list to continually reload every time a character is typed. E.g., in the case of the above design I’ve typed “G”, if I now type “e” it wont reload these interests it will just remove/replace the ones that don’t begin with “Ge”. This is a nicer UX for me as a user because the list isn’t then continuously disappearing & reappearing as I type.
+5. The search should utilize previously fetched data (if available) and display it until the next set of results is received from the backend.
 
-Make sure there’s no unecessary flashing of the list (e.g., as I delete or add characters (letters) the list should never jump around or disappear/reappear necessarily.
+---
 
-In addition to the way it currently works in the app do:
-1. Show the secondary search terms like in the above design
-2. Any other improvements you see are needed.
+**Detailed Explanation of Searching Through Previous Data:**
 
-Can be built with CLI (prefered) but expo also fine. 
-Generate apk for Josh to test.
+For example, if the **Request** is:
+
+```
+https://be-v2.convose.com/autocomplete/interests?q=English&limit=5&from=0
+```
+
+And the **Response from Backend** is:
+
+```
+[
+    {
+        "id": 12,
+        "name": "English",
+        "type": "language",
+        "match": 119009,
+        "color": "#219653",
+        "avatar": "https://cdn.convose.com/images/variants/hyuh027tdhba8no1vuvg5c98pst3/a92a8ca453f3bc63bf52cb27bb8bf545027fb8cc7a2e6281bc67be0b9406d888",
+        "existing": false
+    },
+    {
+        "id": 5049,
+        "name": "Practicing English [English practice]",
+        "type": "general",
+        "match": 30582,
+        "color": "#219653",
+        "avatar": "https://cdn.convose.com/images/variants/urcpem2yoqcrkd5e12gn9ag69286/a9d3f5042b1bac6579a481d23ad9dc3ef3cbfd8456be171332e8bdd1f39e8427",
+        "existing": false
+    },
+    {
+        "id": 2723,
+        "name": "English Grammar",
+        "type": "general",
+        "match": 15859,
+        "color": "#27AE60",
+        "avatar": "https://cdn.convose.com/images/variants/vj54ij268t701qy6v5ofwv1jzy6u/a9d3f5042b1bac6579a481d23ad9dc3ef3cbfd8456be171332e8bdd1f39e8427",
+        "existing": false
+    },
+    {
+        "id": 2303,
+        "name": "ESL [English as a Second Language]",
+        "type": "general",
+        "match": 15148,
+        "color": "#0AD982",
+        "avatar": "https://cdn.convose.com/images/variants/1sfw1jt65m3ovxy2fuibwbu8r7fl/a92a8ca453f3bc63bf52cb27bb8bf545027fb8cc7a2e6281bc67be0b9406d888",
+        "existing": false
+    },
+    {
+        "id": 5044,
+        "name": "Learning English [English learning]",
+        "type": "general",
+        "match": 5648,
+        "color": "#F2994A",
+        "avatar": "https://cdn.convose.com/images/variants/i58uwjvhta78llvgv6mypt3dnzl4/a92a8ca453f3bc63bf52cb27bb8bf545027fb8cc7a2e6281bc67be0b9406d888",
+        "existing": false
+    }
+]
+```
+
+If the user then types:
+
+```
+English Gr
+```
+
+The frontend search algorithm should immediately display "English Grammar" using previously fetched data until the new backend response is received.
+
+---
+
+**API Documentation:**
+
+You can find the documentation for the API here:  
+[https://shadowed-camelotia-c37.notion.site/Interests-Autocomplete-API-184fff04b6f180a9a7add4a5524a7a9d](https://www.notion.so/184fff04b6f180a9a7add4a5524a7a9d?pvs=21)
+
+---
+
+**Expected Behavior:**
+
+![image.png](/images/image.png)
+
+- Results should be listed from bottom to top in the app (refer to the screenshot above).
+- Ensure there is no unnecessary flashing of the list. For example, when deleting or adding characters, the list should not jump around or unnecessarily disappear and reappear.
+
+---
+
+**Additional Notes:**
+
+Feel free to make any other improvements you think would enhance the functionality.
+
+You can build the project with CLI (preferred), but Expo is also fine.  
+Please generate an APK file for Josh to test.
